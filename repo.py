@@ -1,4 +1,5 @@
 import os
+
 import requests
 
 
@@ -29,3 +30,9 @@ class Repo:
         self.zombies = r.json()['zombies']
         self.gold = r.json()['player']['gold']
         return r.json()['turnEndsInMs']
+
+    def next_move(self, attack_queue, build_queue, new_base):
+        requests.post(self.base + "/play/zombidef/command", headers=self.headers,
+                      json={'attack': attack_queue,
+                            'build': build_queue,
+                            'moveBase': new_base})
