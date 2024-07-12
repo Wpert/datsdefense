@@ -4,7 +4,7 @@
 
 # about
 
-Очередная попытка войти в топ-10 на хакатонах от datsteam
+Очередная попытка войти в топ-10 на хакатонах от datsteam. На этот раз надо уж точно постараться.
 
 На этот раз у нас 3 участника:
 
@@ -19,4 +19,13 @@
 - python
 
 - cpp
+
+# build && configure
+
+```bash
+python3 -m venv dvenv
+source dvenv/bin/activate
+python3 -m pip install requirements.txt
+```
+
 
