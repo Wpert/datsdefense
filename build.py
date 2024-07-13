@@ -3,29 +3,49 @@ class Builder:
         self.repo = repo
         self.gold = repo.player.get("gold")
         self.build_queue = []
-        self.firstTurn = True
 
-    def MinimalSquareLen():
-        command_center_x, command_center_y = self.get_command_center_coords()
-        for i in range(-1, 2):
-            for j in range(-1, 2):
-                
+        self.square_size = 4
+        self.perimeter = 12
+        self.cur_x, self.cur_y = -10000, -10000
+        self.index = 0
+
+        #****  - i < square_size: x+=1
+        #*..*  - i >= square_size: y+=1
+        #*..*  - i > square_size*2 - 2:x-=1
+        #****  - i > perimeter - square_size + 2 : y-=1
 
     def get_command_center_coords(self):
         for base_block in self.repo.baseCells:
             if base_block.get("attack") == 40:
                 return base_block.get("x"), base_block.get("y")
 
+    def calc_perimeter(self):
+        self.perimeter = self.square_size * 2 + (self.square_size - 2) * 2
+
     def start_build(self):
-        command_center_x, command_center_y = self.get_command_center_coords()
-        self.build_queue += [
-            {"x" : command_center_x - 1, "y" : command_center_y - 1},
-            {"x" : command_center_x - 1, "y" : command_center_y},
-            {"x" : command_center_x - 1, "y" : command_center_y + 1},
-            {"x" : command_center_x, "y" : command_center_y + 1},
-            {"x" : command_center_x + 1, "y" : command_center_y + 1},
-        ]
-        self.gold -= 5
+        if self.cur_x == -10000:
+            self.cur_x, self.cur_y = self.get_command_center_coords()
+            self.cur_x -= 1
+            self.cur_y += 1
+
+        while self.gold > 0:
+            if self.index == self.perimeter:
+                self.index = 0
+                self.square_size += 1
+                self.calc_perimeter()
+                self.cur_x -= 1
+                self.cur_y += 2
+            self.build_queue += {'x': self.cur_x, 'y': self.cur_y}
+            if self.index < self.square_size:
+                self.cur_x += 1
+            elif self.index > self.perimeter - self.square_size + 2:
+                self.cur_y -= 1
+            elif self.index > self.square_size * 2:
+                self.cur_x -= 1
+            elif self.index >= self.square_size:
+                self.cur_y += 1
+            self.index += 1
+            self.gold -= 1
 
     def build(self):
         self.start_build()
