@@ -36,19 +36,19 @@ class Attacker:
                             "y": enemy_command_center_y
                         }
                     })
+        if (self.repo.zombies != None):
+            for zombie in self.repo.zombies:
+                zombie_x = zombie.get('x')
+                zombie_y = zombie.get('y')
 
-        for zombie in self.repo.zombies:
-            zombie_x = zombie.get('x')
-            zombie_y = zombie.get('y')
-
-            base_block_id = self.get_base_block_id(zombie_x, zombie_y)
-            self.targets.append({
-                "blockId": base_block_id,
-                "target": {
-                    "x": zombie_x,
-                    "y": zombie_y
-                }
-            })
+                base_block_id = self.get_base_block_id(zombie_x, zombie_y)
+                self.targets.append({
+                    "blockId": base_block_id,
+                    "target": {
+                        "x": zombie_x,
+                        "y": zombie_y
+                    }
+                })
         if (self.repo.enemyCells != None):
             for enemy_block in self.repo.enemyCells:
                 if enemy_block.get("attack") != 40:
