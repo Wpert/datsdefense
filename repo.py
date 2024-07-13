@@ -50,6 +50,7 @@ class Repo:
 
 
     def Update(self) -> None:
+        self.InitMap()
         r = requests.get(self.base + "/play/zombidef/units", headers=self.headers)
         unitsInfo = r.json()
         waitNextTurnInMS = 2000
