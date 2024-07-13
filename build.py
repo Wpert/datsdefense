@@ -4,6 +4,7 @@ class Builder:
         self.gold = repo.player.get("gold")
         self.build_queue = []
 
+
         self.square_size = 4
         self.perimeter = 12
         self.cur_x, self.cur_y = -10000, -10000
@@ -13,6 +14,7 @@ class Builder:
         #*..*  - i >= square_size: y+=1
         #*..*  - i > square_size*2 - 2:x-=1
         #****  - i > perimeter - square_size + 2 : y-=1
+
 
     def get_command_center_coords(self):
         for base_block in self.repo.baseCells:
@@ -46,6 +48,8 @@ class Builder:
                 self.cur_y += 1
             self.index += 1
             self.gold -= 1
+
+
 
     def build(self):
         self.start_build()

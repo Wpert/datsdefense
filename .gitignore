@@ -1,3 +1,4 @@
 dvenv/*
 API_KEY.txt
 __pycache__
+settings.json
