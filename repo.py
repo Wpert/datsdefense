@@ -76,10 +76,10 @@ class Repo:
             print(f"Unexpected {err=}, {type(err)=}")
             print(json.dumps(r.json(), indent=4))
 
-        self.next_move( [])
+        self.next_move()
         time.sleep(waitNextTurnInMS / 1000)
 
-    def next_move(self, new_base):
+    def next_move(self):
         if self.died_:
             print("I'm died, cannot do any move")
             return
@@ -94,4 +94,4 @@ class Repo:
         requests.post(self.base + "/play/zombidef/command", headers=self.headers,
                       json={'attack': attack_queue,
                             'build': build_queue,
-                            'moveBase': new_base})
+                            'moveBase': 0})
