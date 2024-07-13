@@ -35,7 +35,7 @@ class Repo:
         while True:
             try:
                 p = requests.put(self.base + "/play/zombidef/participate", headers=self.headers)
-                if p.json()["error"] == "reslm not found":
+                if p.json()["error"] == "realm not found":
                     time.sleep(5)
                     print("realm not found")
                     continue
