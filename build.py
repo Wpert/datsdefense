@@ -29,7 +29,7 @@ class Builder:
         if self.cur_x == -10000:
             self.cur_x, self.cur_y = self.get_command_center_coords()
             self.cur_x -= 1
-            self.cur_y += 1
+            self.cur_y -= 1
 
         while self.gold is not None and self.gold > 0:
             if self.index == self.perimeter:
@@ -37,16 +37,16 @@ class Builder:
                 self.square_size += 1
                 self.calc_perimeter()
                 self.cur_x -= 1
-                self.cur_y += 2
+                self.cur_y -= 2
             self.build_queue += {'x': self.cur_x, 'y': self.cur_y}
             if self.index < self.square_size:
                 self.cur_x += 1
             elif self.index > self.perimeter - self.square_size + 2:
-                self.cur_y -= 1
+                self.cur_y += 1
             elif self.index > self.square_size * 2:
                 self.cur_x -= 1
             elif self.index >= self.square_size:
-                self.cur_y += 1
+                self.cur_y -= 1
             self.index += 1
             self.gold -= 1
 
