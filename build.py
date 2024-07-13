@@ -30,7 +30,7 @@ class Builder:
             self.cur_x -= 1
             self.cur_y += 1
 
-        while self.gold > 0:
+        while self.gold is not None and self.gold > 0:
             if self.index == self.perimeter:
                 self.index = 0
                 self.square_size += 1
