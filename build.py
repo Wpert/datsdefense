@@ -25,6 +25,7 @@ class Builder:
         self.perimeter = self.square_size * 2 + (self.square_size - 2) * 2
 
     def start_build(self):
+        self.build_queue = []
         if self.cur_x == -10000:
             self.cur_x, self.cur_y = self.get_command_center_coords()
             self.cur_x -= 1
