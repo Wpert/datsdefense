@@ -6,11 +6,10 @@ def main():
     rep = Repo()
     rep.SignIn()
 
-    rep.init_map()
+    rep.InitMap()
     while True:
         # think about move and move
-        rep.next_move([], [], [])
-        rep.update()
+        rep.Update()
 
 if __name__ == '__main__':
     main()

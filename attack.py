@@ -13,11 +13,15 @@ class Attack:
                 x = base_block.get('x')
                 y = base_block.get('y')
 
-                if base_block.range >= sqrt(abs(x - target_x)**2 + abs(y - target_y)**2):
+                if base_block.get("range") >= sqrt(abs(x - target_x)**2 + abs(y - target_y)**2):
                     self.used_blocks.append(base_block)
-                    return base_block.id
+                    return base_block.get("id")
 
     def create_attack_queue(self):
+        if (self.repo.enemyCells == None):
+            print("I dont see any enemy.", end="")
+            return []
+
         for enemy_block in self.repo.enemyCells:
             if enemy_block.get("attack") == 40:
                 enemy_command_center_x = enemy_block.get('x')

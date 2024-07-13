@@ -5,6 +5,8 @@ import json
 import time
 import sys
 
+from attack import Attack
+
 class Repo:
 
     def __init__(self):
@@ -26,6 +28,7 @@ class Repo:
         print(api_key)
         self.headers = {"X-Auth-Token": api_key}
 
+
     def SignIn(self) -> None:
         startsInSec = 999
         while True:
@@ -39,25 +42,22 @@ class Repo:
             DELAY = 5
             time.sleep(min(DELAY, startsInSec))
 
-    def init_map(self):
+
+    def InitMap(self):
         r = requests.get(self.base + "/play/zombidef/world", headers=self.headers)
         self.zpots = r.json()['zpots']
 
-    def update(self) -> None:
+
+    def Update(self) -> None:
         r = requests.get(self.base + "/play/zombidef/units", headers=self.headers)
         unitsInfo = r.json()
-
+        waitNextTurnInMS = 2000
         try:
             self.turn = unitsInfo["turn"]
             waitNextTurnInMS = unitsInfo["turnEndsInMs"]
             print(f"Turn {self.turn} ends in {waitNextTurnInMS}")
-        except e:
-            print(e)
-            return
-        
-        if (self.died_):
-            time.sleep(waitNextTurnInMS / 1000)
-            return
+        except Exception as err:
+            print(err)
 
         try:
             self.baseCells = unitsInfo['base']
@@ -66,17 +66,28 @@ class Repo:
             self.player = unitsInfo['player']
             self.turn = unitsInfo["turn"]
 
-            if (self.player["gameEndedAt"] != None):
-                raise Exception("died")
+            print(f"Current gold: {self.player["gold"]}")
+            if self.baseCells == None and not self.died_:
+                print("I'm dead")
+                self.died_ = True
+                return
+
         except Exception as err:
             print(f"Unexpected {err=}, {type(err)=}")
-            if err.message == "died":
-                self.died_ = True
-            # print(json.dumps(r.json(), indent=4))
-        
+            print(json.dumps(r.json(), indent=4))
+
+        self.next_move([], [])
         time.sleep(waitNextTurnInMS / 1000)
 
-    def next_move(self, attack_queue, build_queue, new_base):
+    def next_move(self, build_queue, new_base):
+        if self.died_:
+            print("I'm died, cannot attack")
+            return
+
+        atck = Attack(self)
+        attack_queue = atck.create_attack_queue()
+        print(f"I've attacked {len(attack_queue)} times.")
+
         requests.post(self.base + "/play/zombidef/command", headers=self.headers,
                       json={'attack': attack_queue,
                             'build': build_queue,
