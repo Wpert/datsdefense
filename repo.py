@@ -5,8 +5,8 @@ import json
 import time
 import sys
 
-from attack import Attack
-
+from attack import Attacker
+from build import Builder
 class Repo:
 
     def __init__(self):
@@ -76,17 +76,20 @@ class Repo:
             print(f"Unexpected {err=}, {type(err)=}")
             print(json.dumps(r.json(), indent=4))
 
-        self.next_move([], [])
+        self.next_move( [])
         time.sleep(waitNextTurnInMS / 1000)
 
-    def next_move(self, build_queue, new_base):
+    def next_move(self, new_base):
         if self.died_:
-            print("I'm died, cannot attack")
+            print("I'm died, cannot do any move")
             return
 
-        atck = Attack(self)
+        atck = Attacker(self)
         attack_queue = atck.create_attack_queue()
         print(f"I've attacked {len(attack_queue)} times.")
+        bld = Builder(self)
+        build_queue = bld.build()
+        print(f"I've built {len(build_queue)} objects.")
 
         requests.post(self.base + "/play/zombidef/command", headers=self.headers,
                       json={'attack': attack_queue,

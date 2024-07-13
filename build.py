@@ -1,7 +1,7 @@
-class Build:
+class Builder:
     def __init__(self, repo):
         self.repo = repo
-        self.gold = repo.gold
+        self.gold = repo.player.get("gold")
         self.build_queue = []
 
     def get_command_center_coords(self):

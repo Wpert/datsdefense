@@ -1,7 +1,7 @@
 from math import sqrt
 
 
-class Attack:
+class Attacker:
     def __init__(self, repo):
         self.repo = repo
         self.used_blocks = []
