@@ -1,15 +1,14 @@
 from math import sqrt
 
-from datsdefense.repo import repo
-
 
 class Attack:
-    def __init__(self):
+    def __init__(self, repo):
+        self.repo = repo
         self.used_blocks = []
         self.targets = []
 
     def get_base_block_id(self, target_x: int, target_y: int):
-        for base_block in repo.baseCells:
+        for base_block in self.repo.baseCells:
             if base_block not in self.used_blocks:
                 x = base_block.get('x')
                 y = base_block.get('y')
@@ -19,7 +18,7 @@ class Attack:
                     return base_block.id
 
     def create_attack_queue(self):
-        for enemy_block in repo.enemyCells:
+        for enemy_block in self.repo.enemyCells:
             if enemy_block.get("attack") == 40:
                 enemy_command_center_x = enemy_block.get('x')
                 enemy_command_center_y = enemy_block.get('y')
@@ -33,7 +32,7 @@ class Attack:
                     }
                 })
 
-        for zombie in repo.zombies:
+        for zombie in self.repo.zombies:
             zombie_x = zombie.get('x')
             zombie_y = zombie.get('y')
 
@@ -46,7 +45,7 @@ class Attack:
                 }
             })
 
-        for enemy_block in repo.enemyCells:
+        for enemy_block in self.repo.enemyCells:
             if enemy_block.get("attack") != 40:
                 enemy_base_block_x = enemy_block.get('x')
                 enemy_base_block_y = enemy_block.get('y')
