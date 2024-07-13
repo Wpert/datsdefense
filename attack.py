@@ -18,7 +18,7 @@ class Attacker:
                     return base_block.get("id")
 
     def create_attack_queue(self):
-        if (self.repo.enemyCells == None):
+        if (self.repo.baseCells == None):
             print("I dont see any enemy.", end="")
             return []
 
