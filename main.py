@@ -1,6 +1,7 @@
 import time
 from repo import Repo
 
+steps = 0
 
 def main():
     rep = Repo()
@@ -12,7 +13,9 @@ def main():
         rep.next_move([], [], [])
         wait = rep.update()
         time.sleep(wait/1000)
-
+        global steps
+        print(f"I've did {steps} step")
+        steps += 1
 
 if __name__ == '__main__':
     main()

@@ -1,7 +1,7 @@
 import os
-
+import typing
 import requests
-
+import json
 
 class Repo:
 
@@ -13,10 +13,23 @@ class Repo:
         self.gold = 0
 
         self.base = "https://games-test.datsteam.dev"
-        self.headers = {"X-Auth-Token": os.environ.get("API_KEY", "invalid_key")}
+        api_key = ""
+        if (os.path.isfile("API_KEY.txt")):
+            with open("API_KEY.txt", "r") as fl:
+                api_key = fl.read().replace('\n', '')
+        else:
+            api_key = os.environ.get("API_KEY", "invalid_key")
+        
+        print(api_key)
+        self.headers = {"X-Auth-Token": api_key}
 
-    def signin(self):
+    def signin(self) -> int:
         p = requests.put(self.base + "/play/zombidef/participate", headers=self.headers)
+        try:
+            print("round starts in", p.json()['startsInSec'])
+        except:
+            print(json.dumps(p.json(), indent=4))
+            return 0
         return p.json()['startsInSec']
 
     def init_map(self):
