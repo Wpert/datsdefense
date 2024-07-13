@@ -19,6 +19,20 @@ class Attack:
                     return base_block.id
 
     def create_attack_queue(self):
+        for enemy_block in repo.enemyCells:
+            if enemy_block.get("attack") == 40:
+                enemy_command_center_x = enemy_block.get('x')
+                enemy_command_center_y = enemy_block.get('y')
+
+                base_block_id = self.get_base_block_id(enemy_command_center_x, enemy_command_center_y)
+                self.targets.append({
+                    "blockId": base_block_id,
+                    "target": {
+                        "x": enemy_command_center_x,
+                        "y": enemy_command_center_y
+                    }
+                })
+
         for zombie in repo.zombies:
             zombie_x = zombie.get('x')
             zombie_y = zombie.get('y')
