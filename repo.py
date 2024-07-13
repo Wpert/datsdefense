@@ -35,6 +35,10 @@ class Repo:
         while True:
             try:
                 p = requests.put(self.base + "/play/zombidef/participate", headers=self.headers)
+                if p.json()["error"] == "reslm not found":
+                    time.sleep(5)
+                    print("realm not found")
+                    continue
                 startsInSec = p.json()['startsInSec']
                 print(f"round starts in: {startsInSec}")
             except:
