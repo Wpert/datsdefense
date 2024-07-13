@@ -45,3 +45,19 @@ class Attack:
                     "y": zombie_y
                 }
             })
+
+        for enemy_block in repo.enemyCells:
+            if enemy_block.get("attack") != 40:
+                enemy_base_block_x = enemy_block.get('x')
+                enemy_base_block_y = enemy_block.get('y')
+
+                base_block_id = self.get_base_block_id(enemy_base_block_x, enemy_base_block_y)
+                self.targets.append({
+                    "blockId": base_block_id,
+                    "target": {
+                        "x": enemy_base_block_x,
+                        "y": enemy_base_block_y
+                    }
+                })
+
+        return self.targets
