@@ -22,19 +22,20 @@ class Attacker:
             print("I dont see any enemy.", end="")
             return []
 
-        for enemy_block in self.repo.enemyCells:
-            if enemy_block.get("attack") == 40:
-                enemy_command_center_x = enemy_block.get('x')
-                enemy_command_center_y = enemy_block.get('y')
+        if (self.repo.enemyCells != None):
+            for enemy_block in self.repo.enemyCells:
+                if enemy_block.get("attack") == 40:
+                    enemy_command_center_x = enemy_block.get('x')
+                    enemy_command_center_y = enemy_block.get('y')
 
-                base_block_id = self.get_base_block_id(enemy_command_center_x, enemy_command_center_y)
-                self.targets.append({
-                    "blockId": base_block_id,
-                    "target": {
-                        "x": enemy_command_center_x,
-                        "y": enemy_command_center_y
-                    }
-                })
+                    base_block_id = self.get_base_block_id(enemy_command_center_x, enemy_command_center_y)
+                    self.targets.append({
+                        "blockId": base_block_id,
+                        "target": {
+                            "x": enemy_command_center_x,
+                            "y": enemy_command_center_y
+                        }
+                    })
 
         for zombie in self.repo.zombies:
             zombie_x = zombie.get('x')
@@ -48,19 +49,19 @@ class Attacker:
                     "y": zombie_y
                 }
             })
+        if (self.repo.enemyCells != None):
+            for enemy_block in self.repo.enemyCells:
+                if enemy_block.get("attack") != 40:
+                    enemy_base_block_x = enemy_block.get('x')
+                    enemy_base_block_y = enemy_block.get('y')
 
-        for enemy_block in self.repo.enemyCells:
-            if enemy_block.get("attack") != 40:
-                enemy_base_block_x = enemy_block.get('x')
-                enemy_base_block_y = enemy_block.get('y')
-
-                base_block_id = self.get_base_block_id(enemy_base_block_x, enemy_base_block_y)
-                self.targets.append({
-                    "blockId": base_block_id,
-                    "target": {
-                        "x": enemy_base_block_x,
-                        "y": enemy_base_block_y
-                    }
-                })
+                    base_block_id = self.get_base_block_id(enemy_base_block_x, enemy_base_block_y)
+                    self.targets.append({
+                        "blockId": base_block_id,
+                        "target": {
+                            "x": enemy_base_block_x,
+                            "y": enemy_base_block_y
+                        }
+                    })
 
         return self.targets
