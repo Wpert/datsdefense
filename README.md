@@ -27,7 +27,7 @@
 ```bash
 python3 -m venv dvenv
 source dvenv/bin/activate
-python3 -m pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 
