@@ -67,13 +67,12 @@ class Repo:
             self.turn = unitsInfo["turn"]
 
             if (self.player["gameEndedAt"] != None):
-                raise "died"
-        except "died":
-            print("=== YOU DIED ===")
-            self.died_ = True
-            print(json.dumps(r.json(), indent=4))
-        except e:
-            print(e)
+                raise Exception("died")
+        except Exception as err:
+            print(f"Unexpected {err=}, {type(err)=}")
+            if err.message == "died":
+                self.died_ = True
+            # print(json.dumps(r.json(), indent=4))
         
         time.sleep(waitNextTurnInMS / 1000)
 
