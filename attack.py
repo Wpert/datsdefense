@@ -22,46 +22,103 @@ class Attacker:
             print("I dont see any enemy.", end="")
             return []
 
-        if (self.repo.enemyCells != None):
-            for enemy_block in self.repo.enemyCells:
-                if enemy_block.get("attack") == 40:
-                    enemy_command_center_x = enemy_block.get('x')
-                    enemy_command_center_y = enemy_block.get('y')
 
-                    base_block_id = self.get_base_block_id(enemy_command_center_x, enemy_command_center_y)
+        for base_block in self.repo.baseCells:
+            if self.repo.enemyCells != None:
+                for enemy_block in self.repo.enemyCells:
+                    if enemy_block.get("attack") == 40:
+                        enemy_command_center_x = enemy_block.get('x')
+                        enemy_command_center_y = enemy_block.get('y')
+
+                        health = enemy_block.get("health")
+                        base_block_id = self.get_base_block_id(enemy_command_center_x, enemy_command_center_y)
+                        self.targets.append({
+                            "blockId": base_block_id,
+                            "target": {
+                                "x": enemy_command_center_x,
+                                "y": enemy_command_center_y
+                            }
+                        })
+                        break
+                continue
+
+            if (self.repo.zombies != None):
+                for zombie in self.repo.zombies:
+                    zombie_x = zombie.get('x')
+                    zombie_y = zombie.get('y')
+
+                    base_block_id = self.get_base_block_id(zombie_x, zombie_y)
                     self.targets.append({
                         "blockId": base_block_id,
                         "target": {
-                            "x": enemy_command_center_x,
-                            "y": enemy_command_center_y
+                            "x": zombie_x,
+                            "y": zombie_y
                         }
                     })
-        if (self.repo.zombies != None):
-            for zombie in self.repo.zombies:
-                zombie_x = zombie.get('x')
-                zombie_y = zombie.get('y')
+                    break
+                continue
 
-                base_block_id = self.get_base_block_id(zombie_x, zombie_y)
-                self.targets.append({
-                    "blockId": base_block_id,
-                    "target": {
-                        "x": zombie_x,
-                        "y": zombie_y
-                    }
-                })
-        if (self.repo.enemyCells != None):
-            for enemy_block in self.repo.enemyCells:
-                if enemy_block.get("attack") != 40:
-                    enemy_base_block_x = enemy_block.get('x')
-                    enemy_base_block_y = enemy_block.get('y')
+            if (self.repo.enemyCells != None):
+                for enemy_block in self.repo.enemyCells:
+                    if enemy_block.get("attack") != 40:
+                        enemy_base_block_x = enemy_block.get('x')
+                        enemy_base_block_y = enemy_block.get('y')
 
-                    base_block_id = self.get_base_block_id(enemy_base_block_x, enemy_base_block_y)
-                    self.targets.append({
-                        "blockId": base_block_id,
-                        "target": {
-                            "x": enemy_base_block_x,
-                            "y": enemy_base_block_y
-                        }
-                    })
+                        base_block_id = self.get_base_block_id(enemy_base_block_x, enemy_base_block_y)
+                        self.targets.append({
+                            "blockId": base_block_id,
+                            "target": {
+                                "x": enemy_base_block_x,
+                                "y": enemy_base_block_y
+                            }
+                        })
+                continue
+
+        # if (self.repo.enemyCells != None):
+        #     for enemy_block in self.repo.enemyCells:
+        #         if enemy_block.get("attack") == 40:
+        #             enemy_command_center_x = enemy_block.get('x')
+        #             enemy_command_center_y = enemy_block.get('y')
+        #
+        #             health = enemy_block.get("health")
+        #             while health > 0:
+        #                 base_block_id = self.get_base_block_id(enemy_command_center_x, enemy_command_center_y)
+        #                 self.targets.append({
+        #                     "blockId": base_block_id,
+        #                     "target": {
+        #                         "x": enemy_command_center_x,
+        #                         "y": enemy_command_center_y
+        #                     }
+        #                 })
+        #                 health -= 10
+        #
+        #
+        # if (self.repo.zombies != None):
+        #     for zombie in self.repo.zombies:
+        #         zombie_x = zombie.get('x')
+        #         zombie_y = zombie.get('y')
+        #
+        #         base_block_id = self.get_base_block_id(zombie_x, zombie_y)
+        #         self.targets.append({
+        #             "blockId": base_block_id,
+        #             "target": {
+        #                 "x": zombie_x,
+        #                 "y": zombie_y
+        #             }
+        #         })
+        # if (self.repo.enemyCells != None):
+        #     for enemy_block in self.repo.enemyCells:
+        #         if enemy_block.get("attack") != 40:
+        #             enemy_base_block_x = enemy_block.get('x')
+        #             enemy_base_block_y = enemy_block.get('y')
+        #
+        #             base_block_id = self.get_base_block_id(enemy_base_block_x, enemy_base_block_y)
+        #             self.targets.append({
+        #                 "blockId": base_block_id,
+        #                 "target": {
+        #                     "x": enemy_base_block_x,
+        #                     "y": enemy_base_block_y
+        #                 }
+        #             })
 
         return self.targets
