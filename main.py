@@ -6,9 +6,9 @@ def main():
     rep = Repo()
     rep.SignIn()
 
-    rep.InitMap()
     while True:
         # think about move and move
+        rep.InitMap()
         rep.Update()
 
 if __name__ == '__main__':
