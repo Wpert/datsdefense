@@ -52,6 +52,7 @@ class Builder:
 
 
     def build(self):
+        self.gold = self.repo.player.get("gold")
         self.start_build()
 
         return self.build_queue
