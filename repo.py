@@ -16,6 +16,7 @@ class Repo:
         self.zombies = []
         self.player = {}
         self.died_ = False
+        self.builder = Builder(self)
 
         self.base = "https://games-test.datsteam.dev"
         api_key = ""
@@ -49,6 +50,7 @@ class Repo:
 
 
     def Update(self) -> None:
+        self.InitMap()
         r = requests.get(self.base + "/play/zombidef/units", headers=self.headers)
         unitsInfo = r.json()
         waitNextTurnInMS = 2000
@@ -87,8 +89,7 @@ class Repo:
         atck = Attacker(self)
         attack_queue = atck.create_attack_queue()
         print(f"I've attacked {len(attack_queue)} times.")
-        bld = Builder(self)
-        build_queue = bld.build()
+        build_queue = self.builder.build()
         print(f"I've built {len(build_queue)} objects.")
 
         requests.post(self.base + "/play/zombidef/command", headers=self.headers,
