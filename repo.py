@@ -18,7 +18,7 @@ class Repo:
         self.died_ = False
         self.builder = Builder(self)
 
-        self.base = "https://games-test.datsteam.dev"
+        self.base = "https://games.datsteam.dev"
         api_key = ""
         if (os.path.isfile("API_KEY.txt")):
             with open("API_KEY.txt", "r") as fl:
